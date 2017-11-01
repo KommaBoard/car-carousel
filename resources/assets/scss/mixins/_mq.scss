@@ -1,0 +1,98 @@
+////////////////////////////////////////////////////////////////////////////////
+// MEDIA QUERIES
+//
+// Mobile first media queries with <IE9 fallback
+// @see https://github.com/jakearchibald/sass-ie
+////////////////////////////////////////////////////////////////////////////////
+
+// min width query
+@mixin mq-min($width) {
+	@media only screen and (min-width: $width) {
+		@content;
+	}
+}
+// max width query
+@mixin mq-max($width) {
+	@media only screen and (max-width: ($width - 1)) {
+		@content;
+	}
+}
+// single breakpoint query
+@mixin mq($width, $alpha: true) {
+	@media only screen and (min-width: $width) and (max-width: next-bp($width, $alpha)) {
+		@content;
+	}
+}
+
+// multi breakpoint query
+@mixin multi-mq($width1, $width2, $hidpi: false, $ratio: 1.3, $alpha: true) {
+	@if $width1 == $bp0 {
+		@if $hidpi == true {
+			@media only screen and (max-width: next-bp($width2, $alpha)) and (-webkit-min-device-pixel-ratio: $ratio),
+				only screen and (max-width: next-bp($width2, $alpha)) and (min-resolution: #{round($ratio*96)}dpi) {
+				@content;
+			}
+		} @else {
+			@media only screen and (max-width: next-bp($width2)) {
+				@content;
+			}
+		}
+	} @else {
+		@if $hidpi == true {
+			@media only screen and (min-width: $width1) and (max-width: next-bp($width2, $alpha)) and (-webkit-min-device-pixel-ratio: $ratio),
+				only screen and (min-width: $width1) and (max-width: next-bp($width2, $alpha)) and (min-resolution: #{round($ratio*96)}dpi) {
+				@content;
+			}
+		} @else {
+			@media only screen and (min-width: $width1) and (max-width: next-bp($width2, $alpha)) {
+				@content;
+			}
+		}
+	}
+}
+
+// calculate next breakpoint
+@function next-bp($width, $alpha: true) {
+	@if $width == $bp0a {
+		@return $bp1 - 1;
+	} @else if $width == $bp1 and $alpha == false {
+		@return $bp1a - 1;
+	} @else if $alpha == true and ($width == $bp1 or $width == $bp1a) {
+		@return $bp2 - 1;
+	} @else if $width == $bp2 and $alpha == false {
+		@return $bp2a - 1;
+	} @else if $alpha == true and ($width == $bp2 or $width == $bp2a) {
+		@return $bp3 - 1;
+	} @else if $width == $bp3 and $alpha == false {
+		@return $bp3a - 1;
+	} @else if $alpha == true and ($width == $bp3 or $width == $bp3a) {
+		@return $bp4 - 1;
+	} @else if $width == $bp4 and $alpha == false {
+		@return $bp4a - 1;
+	} @else if $alpha == true and ($width == $bp4 or $width == $bp4a) {
+		@return $bp5 - 1;
+	} @else if $width == $bp5 and $alpha == false {
+		@return $bp5a - 1;
+	} @else if $alpha == true and ($width == $bp5 or $width == $bp5a) {
+		@return $bp6 - 1;
+	} @else if $width == $bp6 and $alpha == false {
+		@return $bp6a - 1;
+	} @else if $alpha == true and ($width == $bp6 or $width == $bp6a) {
+		@return $bp7 - 1;
+	} @else if $width == $bp7 and $alpha == false {
+		@return $bp7a - 1;
+	} @else if $alpha == true and ($width == $bp7 or $width == $bp7a) {
+		@return $bp8 - 1;
+	} @else {
+		@warn 'Invalid breakpoint in next-bp() function';
+	}
+}
+
+// strip units from variable
+// =========================
+// To remove the unit of a value, you have to divide it by one unit of its kind.
+// http://sass-guidelin.es/#numbers
+// http://stackoverflow.com/questions/12328259/how-do-you-strip-the-unit-from-any-number-in-sass
+@function strip-units($number) {
+	@return $number / ($number * 0 + 1);
+}

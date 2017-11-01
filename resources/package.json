@@ -1,0 +1,72 @@
+{
+  "name": "car-chooser",
+  "version": "1",
+  "description": "Car Chooser for KB",
+  "main": "gulpfile.js",
+  "clean": [
+    "dist"
+  ],
+  "js": {
+    "files": [
+      {
+        "src": [
+          "assets/js/lib/3rdparty/*.js",
+          "assets/js/lib/*.js",
+          "assets/js/lib/classes/*.js",
+          "assets/js/bootstrap.js",
+          "assets/js/modules/**/*.js"
+        ],
+        "dest": "../public/dist/js",
+        "file": "main.js"
+      }
+    ],
+    "watch": "assets/js/**/*.js",
+    "hint": {
+      "src": [
+        "!js/lib/**/*.js",
+        "!js/vendor/**/*.js",
+        "/assets/js/**/*.js"
+      ]
+    }
+  },
+  "sass": {
+    "files": [
+      {
+        "src": "assets/scss/main.scss",
+        "dest": "../public/dist/css",
+        "file": "main.css"
+      }
+    ],
+    "watch": "assets/**/*.scss"
+  },
+  "images": {
+    "src": "assets/img/**/*",
+    "dest": "../public/dist/",
+    "watch": "images/**/*"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.6",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "cssnext": "^1.8.4",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-cached": "^1.1.1",
+    "gulp-clean-css": "^3.0.4",
+    "gulp-concat": "^2.6.1",
+    "gulp-copy": "^1.0.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-imagemin": "^3.4.0",
+    "gulp-sass": "^3.1.0",
+    "gulp-scss-lint": "^0.4.0",
+    "gulp-stylelint": "^3.9.0",
+    "gulp-uglify": "^2.0.1",
+    "imagemin-pngquant": "^5.0.1"
+  },
+  "dependencies": {
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0"
+  }
+}

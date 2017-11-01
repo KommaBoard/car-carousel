@@ -1,0 +1,20 @@
+////////////////////////////////////////////////////////////////////////////////
+// VIDEO-ASPECT-RATIO CALCULATOR
+//
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin video-aspect-ratio($width, $height) {
+	@if (type-of($width) == number) {
+		$width: $width;
+	} @else {
+		$width: 560;
+	}
+
+	@if (type-of($height) == number) {
+		$height: $height;
+	} @else {
+		$height: 315;
+	}
+
+	padding-top: percentage($height / $width);
+}

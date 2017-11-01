@@ -1,0 +1,19 @@
+// layout
+body {
+	font-family: sans-serif;
+}
+
+.page-wrapper {
+	max-width: 100%;
+	overflow: hidden;
+}
+
+.layout {
+	max-width: 600px;
+	margin-right: auto;
+	margin-left: auto;
+
+	&--wide {
+		max-width: 960px;
+	}
+}

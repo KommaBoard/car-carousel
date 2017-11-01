@@ -1,0 +1,22 @@
+////////////////////////////////////////////////////////////////////////////////
+// FONT-SMOOTHING
+//
+// see https://developer.mozilla.org/en-US/docs/Web/CSS/font-smooth
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin font-smoothing($val: on) {
+	// scss-lint:disable VendorPrefix, DuplicateProperty, PropertySpelling, PropertySortOrder
+	@if $val == default {
+		-moz-osx-font-smoothing: auto;
+		-webkit-font-smoothing: subpixel-antialiased;
+		font-smooth: auto;
+	} @if $val == off {
+		-moz-osx-font-smoothing: unset;
+		-webkit-font-smoothing: none;
+		font-smooth: never;
+	} @if $val == on {
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		font-smooth: always;
+	}
+}

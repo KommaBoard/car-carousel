@@ -1,0 +1,15 @@
+// =============================================================================
+// We use this to do clear floats (http://foundation.zurb.com/docs/components/global.html)
+// =============================================================================
+
+@mixin clearfix {
+	&::before,
+	&::after {
+		content: ' ';
+		display: table;
+	}
+
+	&::after {
+		clear: both;
+	}
+}

@@ -1,0 +1,81 @@
+// Car chooser
+
+.car-chooser {
+	display: flex;
+	position: relative;
+	min-height: 100vh;
+
+	&::before,
+	&::after {
+		content: '';
+		display: block;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		bottom: 0;
+		width: 50px;
+
+		@include mq-min($bp1) {
+			width: 150px;
+		}
+
+		@include mq-min($bp3) {
+			width: 300px;
+		}
+	}
+
+	&::before {
+		left: 0;
+		background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, .8) 50%, rgba(255, 255, 255, 0) 100%);
+	}
+
+	&::after {
+		right: 0;
+		background: linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, .8) 50%, rgba(255, 255, 255, 0) 100%);
+	}
+}
+
+.car-chooser__image-wrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.car-chooser__image {
+	position: absolute;
+	top: 0;
+	bottom: 200px;
+	left: 10%;
+	width: 80%;
+	height: calc(100% - 100px);
+	object-fit: contain;
+	object-position: center bottom;
+}
+
+.car-chooser__brand,
+.car-chooser__model,
+.car-chooser__pricing {
+	margin-bottom: .5em;
+	transition: opacity 1s;
+	opacity: 0;
+	font-family: sans-serif;
+
+	.is-active &,
+	.js-active & {
+		opacity: 1;
+	}
+}
+
+.car-chooser__brand {
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.car-chooser__model {
+	font-size: 24px;
+}
+
+.car-chooser__pricing {
+	font-size: 20px;
+	font-weight: bold;
+}

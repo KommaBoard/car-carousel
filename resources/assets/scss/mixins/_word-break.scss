@@ -1,0 +1,15 @@
+////////////////////////////////////////////////////////////////////////////////
+// WORD-BREAK
+//
+// mixins so we don't have to extend
+////////////////////////////////////////////////////////////////////////////////
+
+@mixin word-break($value: normal) {
+	@if $value == break-all {
+		// scss-lint:disable DuplicateProperty
+		word-break: break-all; // For IE
+		word-break: break-word; // Webkit handles break-all differently... as break-word
+	} @else {
+		word-break: $value;
+	}
+}

@@ -1,0 +1,13 @@
+// =============================================================================
+// RETINA
+// =============================================================================
+// Include Google Nexus 7 with it’s 1.3 pixel ratio as a retina-capable device
+// @see http://bjango.com/articles/min-device-pixel-ratio
+// Simplified query
+// @see http://www.brettjankord.com/2012/11/28/cross-browser-retinahigh-resolution-media-queries/
+@mixin hidpi($ratio: 1.3) {
+	@media only screen and (-webkit-min-device-pixel-ratio: $ratio),
+	only screen and (min-resolution: #{round($ratio*96)}dpi) {
+		@content;
+	}
+}

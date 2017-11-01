@@ -1,0 +1,15 @@
+// scss lint disabled because the duplicate properties and vendorprefixes are necessary to make it work properly
+// scss-lint:disable DuplicateProperty, VendorPrefix, Comment, StringQuotes, ColorKeyword
+@mixin grayscale() {
+	/* autoprefixer: off */
+	filter: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\"><filter id=\"grayscale\"><feColorMatrix type=\"matrix\" values=\"0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\"/></filter></svg>#grayscale"'); // Firefox 10+, Firefox on Android
+	filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+	filter: gray; /* IE6-9 */
+}
+
+@mixin remove-grayscale() {
+	filter: none;
+	-webkit-filter: none;
+}
+// scss-lint:enable DuplicateProperty, VendorPrefix, Comment, StringQuotes, ColorKeyword
