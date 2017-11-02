@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', 'CarController@index');
+Route::get('/', 'CarsController@index');
 
-Route::get('add', 'CarController@add');
+Route::get('cars', 'CarsController@overview');
+
+Route::resource('crud', 'CRUDController');

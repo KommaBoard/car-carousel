@@ -38,7 +38,12 @@
 			angle = this.theta * i;
 
 			panel.style.opacity = 1;
+
+			// let's limit this bad boy up
+			this.radius = App.helpers.between(this.radius, 0, 1000) ? this.radius : 0;
+
 			panel.style[transformProp] = 'rotateY(' + angle + 'deg) translateZ(' + this.radius + 'px)';
+
 		}
 
 		// hide the other panels

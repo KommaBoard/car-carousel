@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html lang="{{ config('app.locale') }}">
 <head>
 	@include('general/head')
 	@include('general/header-scripts')
