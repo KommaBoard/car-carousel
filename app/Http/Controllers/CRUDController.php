@@ -37,7 +37,12 @@ class CRUDController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'brand' => 'required',
+            'model' => 'required',
+            'cost'  => 'required'
+        ]);
+
 		$cars = new Cars([
           'brand' => $request->get('brand'),
           'model' => $request->get('model'),
@@ -45,7 +50,7 @@ class CRUDController extends Controller
         ]);
         $cars->save();
 
-        return redirect('/crud');
+        return redirect('/cars');
     }
 
     /**
@@ -88,7 +93,7 @@ class CRUDController extends Controller
         $car->cost = $request->get('cost');
         $car->save();
 
-        return redirect('/crud');
+        return redirect('/cars');
     }
 
     /**
@@ -102,6 +107,6 @@ class CRUDController extends Controller
 		$car = Cars::find($id);
 		$car->delete();
 
-		return redirect('/crud');
+		return redirect('/cars');
     }
 }

@@ -11,6 +11,7 @@
 			Logout
 		</a>
 		<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+			{{csrf_field()}}
 		</form>
 	@endif
 	<div class="page-wrapper">
