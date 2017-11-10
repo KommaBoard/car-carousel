@@ -31,7 +31,6 @@ class CarsController extends Controller
 	{
         $cars = Cars::all();
 
-        dd($cars);
 		return view('index', ['cars' => $cars]);
 	}
 

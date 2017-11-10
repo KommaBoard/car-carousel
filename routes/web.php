@@ -11,7 +11,14 @@
 |
 */
 
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('cars', 'CRUDController');
+});
+
 Route::get('/', 'CarsController@index');
 
-Route::resource('cars', 'CRUDController');
+
+
 

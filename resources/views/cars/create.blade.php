@@ -6,6 +6,12 @@
 <body>
 	<div class="page-wrapper">
 		<div class="layout">
+			Hello there {{ Auth::user()->name }}
+			<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+				Logout
+			</a>
+			<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+			</form>
 			<h1>Alle autos</h1>
 			<table class="table table-striped">
 				<thead>

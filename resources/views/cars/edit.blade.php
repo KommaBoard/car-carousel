@@ -5,6 +5,12 @@
 </head>
 <body>
 	<div class="page-wrapper">
+		Hello there {{ Auth::user()->name }}
+		<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+			Logout
+		</a>
+		<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+		</form>
 
 		<form method="post" action="{{action('CRUDController@update', $id)}}">
 			{{csrf_field()}}
