@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Item;
 use App\Models\Cars;
 
 class CarsController extends Controller
@@ -29,13 +26,28 @@ class CarsController extends Controller
 
 	public function index()
 	{
-        $cars = Cars::all();
-
-		return view('index', ['cars' => $cars]);
+		return view('index');
 	}
 
 	public function overview()
 	{
 		return view('cars/create');
 	}
+
+	public function calculateCars(Request $request)
+    {
+        //op basis van jaren ervaring en bruttoloon juiste wagens ophalen en deze doorsturen naar de carousel
+        if (!$request->isMethod('post')) {
+            return redirect()->to('/');
+        }
+        $experience = $request->get('experience');
+        $salary = $request->get('salary');
+
+
+
+        $cars = Cars::all();
+
+        return view('car-select', ['cars' => $cars]);
+
+    }
 }

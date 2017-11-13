@@ -14,9 +14,36 @@
 			{{csrf_field()}}
 		</form>
 	@endif
-	<div class="page-wrapper">
-		@include('carousel/carousel')
+
+	<div class="page-wrapper intro-form">
+		<div class="col-md-6">
+			<h1>Car calculator</h1>
+			<p>
+				Hello there ..
+			</p>
+		</div>
+		<div class="col-md-6">
+			<form method="post" action="/select-your-car" class="form" id="introForm">
+				{{csrf_field()}}
+				<ul class="form__list">
+					<li class="form__row">
+						<label>Jaren ervaring</label>
+						<input type="text" name="experience" class="form__input" required>
+					</li>
+					<li class="form__row">
+						<label>Bruttoloon</label>
+						<input type="text"name="salary" class="form__input" required>
+					</li>
+					<li class="form__row form__row--footer">
+						<button class="form__button">
+							Toon mijn wagens
+						</button>
+					</li>
+				</ul>
+			</form>
+		</div>
 	</div>
+
 	@include('general/scripts')
 </body>
 </html>
