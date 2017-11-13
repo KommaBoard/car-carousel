@@ -28,7 +28,10 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 */
 
-Route::any('select-your-car', 'CarsController@calculateCars');
+Route::post('select-your-car', 'CarsController@calculateCars');
+Route::get('select-your-car', function () {
+    return redirect()->to('/');
+});
 
 
 Route::group(['middleware' => 'auth'], function () {

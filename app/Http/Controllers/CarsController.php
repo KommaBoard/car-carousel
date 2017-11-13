@@ -37,9 +37,6 @@ class CarsController extends Controller
 	public function calculateCars(Request $request)
     {
         //op basis van jaren ervaring en bruttoloon juiste wagens ophalen en deze doorsturen naar de carousel
-        if (!$request->isMethod('post')) {
-            return redirect()->to('/');
-        }
         $experience = $request->get('experience');
         $salary = $request->get('salary');
 
