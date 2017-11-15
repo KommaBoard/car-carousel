@@ -5,16 +5,10 @@
 </head>
 <body>
 	<div class="page-wrapper">
+		@include('general/nav')
+
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
-			Hello there {{ Auth::user()->name }}
-			<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-				Logout
-			</a>
-			<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-				{{csrf_field()}}
-			</form>
-
 			<form method="post" action="{{action('CRUDController@update', $id)}}" class="form">
 				{{csrf_field()}}
 				<ul class="form__list">
@@ -25,6 +19,10 @@
 					<li class="form__row">
 						<label>Model</label>
 						<input type="text"name="model" class="form__input" value="{{$car->model}}">
+					</li>
+					<li class="form__row">
+						<label>Type</label>
+						<input type="text"name="type" class="form__input" value="{{$car->type}}">
 					</li>
 					<li class="form__row">
 						<label>Prijs</label>

@@ -5,29 +5,86 @@
 </head>
 <body>
 	<div class="page-wrapper">
-		<div class="layout">
-			Hello there {{ Auth::user()->name }}
-			<a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-				Logout
-			</a>
-			<form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-				{{csrf_field()}}
-			</form>
-			<h1>Alle autos</h1>
+		@include('general/nav')
+
+
+		<h1>Alle auto's</h1>
+			<div class="col-md-6">
+				@if ($errors->any())
+					<div class="alert alert-danger">
+						<ul>
+							@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+				@endif
+				<form method="post" action="{{url('cars')}}" class="form">
+					{{csrf_field()}}
+					<ul class="form__list">
+						<li class="form__row">
+							<label for="brand"
+								   class="form__label">
+								Merk
+							</label>
+							<input type="text"
+								   name="brand" id="brand"
+								   class="form__input"
+								   placeholder="Volkswagen">
+						</li>
+						<li class="form__row">
+							<label for="model"
+								   class="form__label">
+								Model
+							</label>
+							<input type="text"
+								   name="model" id="model"
+								   class="form__input"
+								   placeholder="Golf">
+						</li>
+						<li class="form__row">
+							<label for="type"
+								   class="form__label">
+								Type
+							</label>
+							<input type="text"
+								   name="type" id="model"
+								   class="form__input"
+								   placeholder="Berline">
+						</li>
+						<li class="form__row">
+							<label for="cost"
+								   class="form__label">
+								Prijs
+							</label>
+							<input type="text"
+								   name="cost" id="cost"
+								   class="form__input"
+								   placeholder="100">
+						</li>
+						<li class="form__row form__row--footer">
+							<button class="form__button">
+								Toevoegen
+							</button>
+						</li>
+					</ul>
+				</form>
+			</div>
+		<div class="col-md-6">
 			<table class="table table-striped">
 				<thead>
-					<tr>
-						<th>Model</th>
-						<th>Merk</th>
-						<th>Kost</th>
-						<th colspan="2">Acties</th>
-					</tr>
+				<tr>
+					<th>Merk</th>
+					<th>Model</th>
+					<th>Kost</th>
+					<th colspan="2">Acties</th>
+				</tr>
 				</thead>
 				<tbody>
 				@foreach($cars as $post)
 					<tr>
-						<td>{{$post['model']}}</td>
 						<td>{{$post['brand']}}</td>
+						<td>{{$post['model']}}</td>
 						<td>{{$post['cost']}}</td>
 						<td>
 							<a href="{{action('CRUDController@edit', $post['id'])}}">
@@ -48,56 +105,7 @@
 					</tr>
 				@endforeach
 				</tbody>
-	 		</table>
-			@if ($errors->any())
-				<div class="alert alert-danger">
-					<ul>
-						@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-						@endforeach
-					</ul>
-				</div>
-			@endif
-			<form method="post" action="{{url('cars')}}" class="form">
-				{{csrf_field()}}
-				<ul class="form__list">
-					<li class="form__row">
-						<label for="brand"
-							class="form__label">
-							Merk
-						</label>
-						<input type="text"
-							name="brand" id="brand"
-							class="form__input"
-							placeholder="Volkswagen">
-					</li>
-					<li class="form__row">
-						<label for="model"
-							class="form__label">
-							Model
-						</label>
-						<input type="text"
-							name="model" id="model"
-							class="form__input"
-							placeholder="Golf">
-					</li>
-					<li class="form__row">
-						<label for="cost"
-							class="form__label">
-							Prijs
-						</label>
-						<input type="text"
-							name="cost" id="cost"
-							class="form__input"
-							placeholder="20 000">
-					</li>
-					<li class="form__row form__row--footer">
-						<button class="form__button">
-							Toevoegen
-						</button>
-					</li>
-				</ul>
-			</form>
+			</table>
 		</div>
 	</div>
 	@include('general/scripts')

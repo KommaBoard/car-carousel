@@ -14,7 +14,7 @@ class CRUDController extends Controller
      */
     public function index()
     {
-		$cars = Cars::all()->toArray();
+		$cars = Cars::all()->sortBy('cost')->toArray();
 
         return view('cars.create', compact('cars'));
     }
@@ -40,13 +40,15 @@ class CRUDController extends Controller
         $request->validate([
             'brand' => 'required',
             'model' => 'required',
+            'type'  => 'required',
             'cost'  => 'required'
         ]);
 
 		$cars = new Cars([
-          'brand' => $request->get('brand'),
-          'model' => $request->get('model'),
-		  'cost' => $request->get('cost')
+		    'brand' => $request->get('brand'),
+            'model' => $request->get('model'),
+            'type' => $request->get('type'),
+            'cost' => $request->get('cost')
         ]);
         $cars->save();
 
@@ -90,6 +92,7 @@ class CRUDController extends Controller
 
         $car->brand = $request->get('brand');
 		$car->model = $request->get('model');
+        $car->type = $request->get('type');
         $car->cost = $request->get('cost');
         $car->save();
 
