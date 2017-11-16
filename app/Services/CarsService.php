@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
-use App\Models\Cars;
+use App\Cars;
 use App\SalaryScale;
 
 class CarsService
 {
+    //we use - here to show the most expensice cars
+    private $carResultsLimit = -7;
+
     private $maxYearsExperience = 26;
 
     private $standardBudgetMinimum = 450;
 
     private $standardBudgetMaxmimum = 650;
 
-    private $maxAgeCategory = 15;
+    private $taxFactor = 0.8;
+
+    private $maxExperienceCategory= 10;
 
     private $budgetBasedOnYearsExperience = [
                                                 5 => 550,
@@ -32,6 +37,7 @@ class CarsService
      */
     private function getMinimumSalary($experience)
     {
+        //if the user has more experience than the max in the salary scale use the max years
         if ($experience > $this->maxYearsExperience) {
             $experience = $this->maxYearsExperience;
         }
@@ -40,7 +46,7 @@ class CarsService
     }
 
     /**
-     * Returns the maximum budget based on the salary.
+     * Returns the maximum budget to spend based on the salary.
      *
      * @param int $salary
      * @param int $experience
@@ -49,7 +55,8 @@ class CarsService
      */
     public function getMaxBudgetBasedOnSalary($salary, $experience)
     {
-        return $salary - $this->getMinimumSalary($experience);
+        // multiply result with taxfactor because 1€ is actually 80cents because of tax things
+        return round(($salary - $this->getMinimumSalary($experience)) * $this->taxFactor);
     }
 
     /**
@@ -61,13 +68,14 @@ class CarsService
      */
     private function getStandardBudget($experience)
     {
+        //budget is default the minimum
         $standardBudget = $this->standardBudgetMinimum;
 
         if (array_key_exists($experience, $this->budgetBasedOnYearsExperience)) {
             $standardBudget = $this->budgetBasedOnYearsExperience[$experience];
         }
 
-        if ($experience > $this->maxAgeCategory) {
+        if ($experience > $this->maxExperienceCategory) {
             $standardBudget = $this->standardBudgetMaxmimum;
         }
 
@@ -92,32 +100,55 @@ class CarsService
     }
 
     /**
+     * Returns the total budget when a user selects his own salary he wants to lose.
+     *
+     * @param int $salaryToLose
+     * @param int $experience
+     *
+     * @return int|mixed
+     */
+    private function getTotalBudgetBasedOnSalaryToLose($salaryToLose, $experience)
+    {
+        $standardBudget = $this->getStandardBudget($experience);
+
+        return $salaryToLose + $standardBudget;
+    }
+
+    /**
      * Adds the correct salary the user will lose based on standard budget and experience.
      *
-     * @param int       $salary
      * @param int       $experience
      * @param string    $type
      *
      * @return array
      */
-    private function calculateSalaryToLosePerCar($salary, $experience, $type)
+    private function calculateSalaryToLosePerCar($budget, $experience, $brand, $type)
     {
-        $totalBudget = $this->getTotalBudget($salary, $experience);
+        //brand = all or null   and type = all or null  -> get all cars
+        //brand                 and type = all or null  -> get cars of all types and brand
+        //brand = all or null   and type                -> get cars of all brands and type
+        //brand                 and type                -> get cars of brand and type
 
-        $maxBudgetBasedOnSalary = $this->getMaxBudgetBasedOnSalary($salary, $experience);
-
-        if ($maxBudgetBasedOnSalary < 100) {
-            $totalBudget = $this->standardBudgetMinimum;
-        }
-
-        if ($type == 'all' || $type === null) {
-            $cars = Cars::where('cost', '<=', $totalBudget)
-                            ->get()->take(-7)->sortByDesc('cost');
+        $cars = null;
+        if(($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
+            $cars = Cars::where('cost', '<=', $budget)
+                ->get()->take($this->carResultsLimit)->sortByDesc('cost');
+        } elseif($brand && ($type === 'all' || $type === null)) {
+            $cars = Cars::where([
+                ['cost', '<=', $budget],
+                ['brand', '=', $brand],
+            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
+        } elseif (($brand === 'all' || $brand === null) && $type) {
+            $cars = Cars::where([
+                ['cost', '<=', $budget],
+                ['type', '=', $type]
+            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
         } else {
             $cars = Cars::where([
-                ['cost', '<=', $totalBudget],
+                ['cost', '<=', $budget],
+                ['brand', '=', $brand],
                 ['type', '=', $type]
-            ])->get()->take(-7)->sortByDesc('cost');
+            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
         }
 
         foreach($cars as $car) {
@@ -134,22 +165,52 @@ class CarsService
      *
      * @param int       $salary
      * @param int       $experience
+     * @param string    $brand
      * @param string    $type
      *
      * @return array
      */
-    public function getCars($salary, $experience, $type)
+    public function getCars($salary, $experience, $brand, $type)
     {
-        return $this->calculateSalaryToLosePerCar($salary, $experience, $type);
+        return $this->calculateSalaryToLosePerCar(
+                                                    $this->getTotalBudget($salary, $experience),
+                                                    $experience,
+                                                    $brand,
+                                                    $type
+                                                 );
     }
 
     /**
-     * Returns all the different car types that are available
+     * Returns all the different values(brand, type, etc.) of a car that are available
      *
      * @return array
      */
-    public function getTypes()
+    public function getAvailableValuesOfCars($value)
     {
-        return Cars::orderBy('type','asc')->groupBy('type')->select('type')->get();
+        return Cars::orderBy($value,'asc')->groupBy($value)->select($value)->get();
+    }
+
+
+    /**
+     * Returns all the cars a user can choose from based on his selected salary he wants to lose.
+     *
+     * @param $salaryToLose
+     * @param $experience
+     * @param $brand
+     * @param $type
+     *
+     * @return array
+     */
+    public function getUpdatedCars($salaryToLose, $experience, $brand, $type)
+    {
+        return $this->calculateSalaryToLosePerCar(
+                                                    $this->getTotalBudgetBasedOnSalaryToLose(
+                                                                                                $salaryToLose,
+                                                                                                $experience
+                                                                                            ),
+                                                    $experience,
+                                                    $brand,
+                                                    $type
+                                                 );
     }
 }

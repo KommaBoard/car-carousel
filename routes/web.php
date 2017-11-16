@@ -16,23 +16,12 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
-/* Registration Routes... Disabling these because we don't want users to go register themselves
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
-
-// Password Reset Routes... Disabling these because we won't be using the functionality
-
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
-Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
-*/
-
 Route::post('select-your-car', 'CarsController@calculateCars');
 Route::get('select-your-car', function () {
     return redirect()->to('/');
 });
 
+Route::post('update-cars', 'CarsController@updateCars');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::resource('cars', 'CRUDController');

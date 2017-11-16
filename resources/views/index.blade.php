@@ -15,8 +15,8 @@
 	@if ( session()->has('message') )
 		<div class="alert alert-success alert-dismissable">{{ session()->get('message') }}</div>
 	@endif
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
 			<div class="row">
 				<div class="col-md-6">
 					<h1 class="title">Car Calculator</h1>
@@ -55,8 +55,24 @@
 							@endif
 						</li>
 						<li class="form__row">
-							<label>Ik ben geïnteresseerd in type: </label>
+							<label>Ik ben geïnteresseerd in merk:</label>
 
+							<div class="btn-group" data-toggle="buttons">
+								@foreach($brands as $brand)
+									<label class="btn btn-kommaboard">
+										<input type="radio" name="carbrand" value="{{$brand->brand}}" autocomplete="off">
+										{{$brand->brand}}
+									</label>
+								@endforeach
+								<label class="btn btn-kommaboard">
+									<input type="radio" name="carbrand" value="all" autocomplete="off">
+									Alles
+								</label>
+							</div>
+						</li>
+						<li class="form__row">
+							<label>Ik ben geïnteresseerd in type:</label>
+							<br>
 							<div class="btn-group" data-toggle="buttons">
 								@foreach($types as $type)
 									<label class="btn btn-kommaboard">
@@ -66,7 +82,7 @@
 								@endforeach
 									<label class="btn btn-kommaboard">
 										<input type="radio" name="cartype" value="all" autocomplete="off">
-										Alle
+										Alles
 									</label>
 							</div>
 						</li>
@@ -79,7 +95,7 @@
 				</form>
 			</div>
 		</div>
-		<div class="col-md-4"></div>
+		<div class="col-md-3"></div>
 	</div>
 
 	@include('general/scripts')
