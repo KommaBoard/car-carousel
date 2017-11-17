@@ -8,7 +8,12 @@
 		@include('general/nav')
 
 		<div class="col-md-1"></div>
-		<div class="col-md-10">
+		<div class="col-md-6">
+            <?php $model = str_replace(' ', '-', $car['model']) ?>
+			<img src="<?php echo '/dist/img/examples/car-'.$model.'-medium.png' ?>"
+				 class="img" alt="">
+		</div>
+		<div class="col-md-4">
 			<form method="post" action="{{action('CRUDController@update', $id)}}" class="form">
 				{{csrf_field()}}
 				<ul class="form__list">

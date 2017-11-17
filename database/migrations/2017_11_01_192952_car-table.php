@@ -13,13 +13,13 @@ class CarTable extends Migration
      */
     public function up()
     {
-        //
 		Schema::create('cars', function (Blueprint $table) {
             $table->increments('id');
 			$table->text('brand');
 			$table->text('model');
 			$table->text('type');
 			$table->text('cost');
+			$table->string('filepath');
             $table->timestamps();
         });
     }

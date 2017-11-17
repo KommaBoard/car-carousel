@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'name' => str_random('KommaBoarder'),
+            'name' => 'KommaBoarder',
             'email' => 'kommaboarder@gmail.com',
             'password' => bcrypt('verysecretpassword'),
         ]);

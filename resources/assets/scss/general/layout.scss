@@ -21,3 +21,7 @@ body {
 		max-width: 960px;
 	}
 }
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0 !important;
+}

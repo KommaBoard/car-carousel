@@ -2,12 +2,13 @@
 
 namespace App\Services;
 
-use App\Cars;
+use App\Car;
 use App\SalaryScale;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class CarsService
 {
-    //we use - here to show the most expensice cars
+    //we use - here to show the most expensive cars
     private $carResultsLimit = -7;
 
     private $maxYearsExperience = 26;
@@ -131,20 +132,20 @@ class CarsService
 
         $cars = null;
         if(($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
-            $cars = Cars::where('cost', '<=', $budget)
+            $cars = Car::where('cost', '<=', $budget)
                 ->get()->take($this->carResultsLimit)->sortByDesc('cost');
         } elseif($brand && ($type === 'all' || $type === null)) {
-            $cars = Cars::where([
+            $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['brand', '=', $brand],
             ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
         } elseif (($brand === 'all' || $brand === null) && $type) {
-            $cars = Cars::where([
+            $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['type', '=', $type]
             ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
         } else {
-            $cars = Cars::where([
+            $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['brand', '=', $brand],
                 ['type', '=', $type]
@@ -187,7 +188,7 @@ class CarsService
      */
     public function getAvailableValuesOfCars($value)
     {
-        return Cars::orderBy($value,'asc')->groupBy($value)->select($value)->get();
+        return Car::orderBy($value,'asc')->groupBy($value)->select($value)->get();
     }
 
 
@@ -212,5 +213,40 @@ class CarsService
                                                     $brand,
                                                     $type
                                                  );
+    }
+
+    /**
+     * Stores a new car and images
+     *
+     * @param $brand
+     * @param $model
+     * @param $type
+     * @param $cost
+     * @param $image
+     */
+    public function storeNewCar($brand, $model, $type, $cost, $image)
+    {
+        //store default 950x500px image
+        $path = $image->storeAs('', 'car-'.$model.'.png', 'car-image-uploads');
+
+        //resize to medium(700x368px)
+        $image_resize = Image::make($image->getRealPath());
+        $image_resize->resize(700, 368);
+        $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-medium.png'));
+
+        //resize to small(263)
+        $image_resize = Image::make($image->getRealPath());
+        $image_resize->resize(500, 263);
+        $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-small.png'));
+
+        $car = new Car([
+            'brand' => $brand,
+            'model' => $model,
+            'type'  => $type,
+            'cost'  => $cost,
+            'filepath'  => $path
+        ]);
+
+        $car->save();
     }
 }

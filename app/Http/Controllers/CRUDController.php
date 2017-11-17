@@ -2,11 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CarsService;
 use Illuminate\Http\Request;
-use App\Cars;
+use App\Car;
 
 class CRUDController extends Controller
 {
+    /** @var  CarsService $carsCalculatorService */
+    private $carsService;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @param CarsService $carsService
+     */
+    public function __construct(CarsService $carsService)
+    {
+        $this->carsService = $carsService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +28,7 @@ class CRUDController extends Controller
      */
     public function index()
     {
-		$cars = Cars::all()->sortBy('cost')->toArray();
+		$cars = Car::all()->sortBy('cost')->toArray();
 
         return view('cars.create', compact('cars'));
     }
@@ -41,16 +55,17 @@ class CRUDController extends Controller
             'brand' => 'required',
             'model' => 'required',
             'type'  => 'required',
-            'cost'  => 'required'
+            'cost'  => 'required',
+            'image' => 'required|mimes:png|dimensions:max_width=950,min_height=500|dimensions:min_width=950,max_height=500'
         ]);
 
-		$cars = new Cars([
-		    'brand' => $request->get('brand'),
-            'model' => $request->get('model'),
-            'type' => $request->get('type'),
-            'cost' => $request->get('cost')
-        ]);
-        $cars->save();
+        $this->carsService->storeNewCar(
+            $request->get('brand'),
+            $request->get('model'),
+            $request->get('type'),
+            $request->get('cost'),
+            $request->image
+        );
 
         return redirect('/cars');
     }
@@ -74,7 +89,7 @@ class CRUDController extends Controller
      */
     public function edit($id)
     {
-        $car= Cars::find($id);
+        $car= Car::find($id);
 
         return view('cars.edit', compact('car','id'));
     }
@@ -88,7 +103,7 @@ class CRUDController extends Controller
      */
     public function update(Request $request, $id)
     {
-		$car = Cars::find($id);
+		$car = Car::find($id);
 
         $car->brand = $request->get('brand');
 		$car->model = $request->get('model');
@@ -107,7 +122,7 @@ class CRUDController extends Controller
      */
     public function destroy($id)
     {
-		$car = Cars::find($id);
+		$car = Car::find($id);
 		$car->delete();
 
 		return redirect('/cars');
