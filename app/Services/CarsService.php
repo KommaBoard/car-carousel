@@ -57,7 +57,7 @@ class CarsService
     public function getMaxBudgetBasedOnSalary($salary, $experience)
     {
         // multiply result with taxfactor because 1€ is actually 80cents because of tax things
-        return round(($salary - $this->getMinimumSalary($experience)) * $this->taxFactor);
+        return round(($salary - $experience) * $this->taxFactor);
     }
 
     /**
