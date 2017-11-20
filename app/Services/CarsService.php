@@ -15,8 +15,6 @@ class CarsService
 
     private $standardBudgetMinimum = 450;
 
-    private $standardBudgetMaxmimum = 650;
-
     private $taxFactor = 0.8;
 
     private $maxExperienceCategory= 10;
@@ -29,6 +27,12 @@ class CarsService
                                                 9 => 550,
                                                 10 => 550,
                                             ];
+
+    private function getStandardBudgetMaximum()
+    {
+        return Car::max('cost');
+    }
+
     /**
      * Returns the minimum salary based on years experience.
      *
@@ -77,12 +81,11 @@ class CarsService
         }
 
         if ($experience > $this->maxExperienceCategory) {
-            $standardBudget = $this->standardBudgetMaxmimum;
+            $standardBudget = $this->getStandardBudgetMaximum();
         }
 
         return $standardBudget;
     }
-
 
     /**
      * Returns the total maximum budget that the user can use to select a car.
