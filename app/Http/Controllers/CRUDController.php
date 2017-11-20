@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use App\Services\CarsService;
 use Illuminate\Http\Request;
 use App\Car;
@@ -47,6 +48,7 @@ class CRUDController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -71,25 +73,15 @@ class CRUDController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        $car= Car::find($id);
+        $car = Car::find($id);
 
         return view('cars.edit', compact('car','id'));
     }
@@ -99,6 +91,7 @@ class CRUDController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -109,6 +102,7 @@ class CRUDController extends Controller
 		$car->model = $request->get('model');
         $car->type = $request->get('type');
         $car->cost = $request->get('cost');
+
         $car->save();
 
         return redirect('/cars');
@@ -118,12 +112,19 @@ class CRUDController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 		$car = Car::find($id);
-		$car->delete();
+		$filename = $car->filepath;
+		//need to remove all 3 pictures
+        Storage::disk('car-image-uploads')->delete($filename);
+        Storage::disk('car-image-uploads')->delete(substr($filename, 0, -4) . '-medium.png');
+        Storage::disk('car-image-uploads')->delete(substr($filename, 0, -4) . '-small.png');
+
+        $car->delete();
 
 		return redirect('/cars');
     }

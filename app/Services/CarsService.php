@@ -2,14 +2,13 @@
 
 namespace App\Services;
 
-use App\Car;
-use App\SalaryScale;
 use Intervention\Image\ImageManagerStatic as Image;
+use App\SalaryScale;
+use App\Car;
 
 class CarsService
 {
-    //we use - here to show the most expensive cars
-    private $carResultsLimit = -7;
+    private $carResultsLimit = 7;
 
     private $maxYearsExperience = 26;
 
@@ -136,23 +135,23 @@ class CarsService
         $cars = null;
         if(($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
             $cars = Car::where('cost', '<=', $budget)
-                ->get()->take($this->carResultsLimit)->sortByDesc('cost');
+                ->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         } elseif($brand && ($type === 'all' || $type === null)) {
             $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['brand', '=', $brand],
-            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
+            ])->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         } elseif (($brand === 'all' || $brand === null) && $type) {
             $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['type', '=', $type]
-            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
+            ])->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         } else {
             $cars = Car::where([
                 ['cost', '<=', $budget],
                 ['brand', '=', $brand],
                 ['type', '=', $type]
-            ])->get()->take($this->carResultsLimit)->sortByDesc('cost');
+            ])->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         }
 
         foreach($cars as $car) {
