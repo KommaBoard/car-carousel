@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CarsController extends Controller
 {
-    /** @var  CarsService $carsCalculatorService */
+    /** @var  CarsService $carsService */
     private $carsService;
 
     /**

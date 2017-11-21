@@ -8,7 +8,7 @@ use App\Car;
 
 class CarsService
 {
-    private $carResultsLimit = 7;
+    private $carResultsLimit = 10;
 
     private $maxYearsExperience = 26;
 
@@ -16,7 +16,7 @@ class CarsService
 
     private $taxFactor = 0.8;
 
-    private $maxExperienceCategory= 10;
+    private $maxExperienceCategory = 10;
 
     private $budgetBasedOnYearsExperience = [
                                                 5 => 550,
@@ -133,7 +133,7 @@ class CarsService
         //brand                 and type                -> get cars of brand and type
 
         $cars = null;
-        if(($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
+        if (($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
             $cars = Car::where('cost', '<=', $budget)
                 ->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         } elseif($brand && ($type === 'all' || $type === null)) {
@@ -154,7 +154,7 @@ class CarsService
             ])->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);
         }
 
-        foreach($cars as $car) {
+        foreach ($cars as $car) {
             $standardBudget = $this->getStandardBudget($experience);
 
             $car['salaryToLose'] = $car->cost - $standardBudget;
@@ -197,10 +197,10 @@ class CarsService
     /**
      * Returns all the cars a user can choose from based on his selected salary he wants to lose.
      *
-     * @param $salaryToLose
-     * @param $experience
-     * @param $brand
-     * @param $type
+     * @param string $salaryToLose
+     * @param string $experience
+     * @param string $brand
+     * @param string $type
      *
      * @return array
      */
@@ -218,34 +218,34 @@ class CarsService
     }
 
     /**
-     * Stores a new car and images
+     * Stores a new car and saves the images
      *
-     * @param $brand
-     * @param $model
-     * @param $type
-     * @param $cost
-     * @param $image
+     * @param string $brand
+     * @param string $model
+     * @param string $type
+     * @param string $cost
+     * @param string $image
      */
     public function storeNewCar($brand, $model, $type, $cost, $image)
     {
-        //store default 950x500px image
+        //store default image 950x500px
         $path = $image->storeAs('', 'car-'.$model.'.png', 'car-image-uploads');
 
-        //resize to medium(700x368px)
+        //resize to medium (700x368px)
         $image_resize = Image::make($image->getRealPath());
         $image_resize->resize(700, 368);
         $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-medium.png'));
 
-        //resize to small(263)
+        //resize to small (500x263)
         $image_resize = Image::make($image->getRealPath());
         $image_resize->resize(500, 263);
         $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-small.png'));
 
         $car = new Car([
-            'brand' => $brand,
-            'model' => $model,
-            'type'  => $type,
-            'cost'  => $cost,
+            'brand'     => $brand,
+            'model'     => $model,
+            'type'      => $type,
+            'cost'      => $cost,
             'filepath'  => $path
         ]);
 

@@ -9,7 +9,7 @@ use App\Car;
 
 class CRUDController extends Controller
 {
-    /** @var  CarsService $carsCalculatorService */
+    /** @var  CarsService $carsService */
     private $carsService;
 
     /**
