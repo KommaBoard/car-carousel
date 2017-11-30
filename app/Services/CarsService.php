@@ -8,7 +8,7 @@ use App\Car;
 
 class CarsService
 {
-    private $carResultsLimit = 10;
+    private $carResultsLimit = 7;
 
     private $maxYearsExperience = 26;
 
@@ -27,8 +27,15 @@ class CarsService
                                                 10 => 550,
                                             ];
 
+    /**
+     * Returns the standard maximum budget.
+     * (the price of the most expensive car in the table)
+     *
+     * @return int
+     */
     private function getStandardBudgetMaximum()
     {
+        //standard max budget equals the most expensive car in the table
         return Car::max('cost');
     }
 
@@ -75,6 +82,7 @@ class CarsService
         //budget is default the minimum
         $standardBudget = $this->standardBudgetMinimum;
 
+        //check if key is in the experience array else the standard is just the minium
         if (array_key_exists($experience, $this->budgetBasedOnYearsExperience)) {
             $standardBudget = $this->budgetBasedOnYearsExperience[$experience];
         }
@@ -99,7 +107,13 @@ class CarsService
         $maxBudget = $this->getMaxBudgetBasedOnSalary($salary, $experience);
         $standardBudget = $this->getStandardBudget($experience);
 
-        return $maxBudget + $standardBudget;
+        $totalBudget = $maxBudget + $standardBudget;
+
+        if ($totalBudget <= $standardBudget) {
+            $totalBudget = $standardBudget;
+        }
+
+        return $totalBudget;
     }
 
     /**
@@ -133,6 +147,7 @@ class CarsService
         //brand                 and type                -> get cars of brand and type
 
         $cars = null;
+
         if (($brand === 'all' || $brand === null) && ($type === 'all' || $type === null)) {
             $cars = Car::where('cost', '<=', $budget)
                 ->orderBy('cost', 'desc')->get()->take($this->carResultsLimit);

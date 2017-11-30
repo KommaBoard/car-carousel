@@ -14,7 +14,7 @@ $model = str_replace(' ', '-', $slide->model);
 				{{ $slide->model }}
 			</h2>
 			<p class="car-chooser__pricing">
-				€ {{ $slide->salaryToLose }}
+				Bruttoloon af te staan: € {{ $slide->salaryToLose }}
 			</p>
 		</figcaption>
 	</figure>
