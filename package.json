@@ -1,21 +1,72 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "npm run development",
-        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "watch-poll": "npm run watch -- --watch-poll",
-        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-        "prod": "npm run production",
-        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "name": "car-chooser",
+    "version": "1.0.0",
+    "description": "Car Chooser for KB",
+    "main": "gulpfile.js",
+    "clean": [
+        "dist"
+    ],
+    "js": {
+        "files": [
+            {
+                "src": [
+                    "resources/assets/js/lib/3rdparty/*.js",
+                    "resources/assets/js/lib/*.js",
+                    "resources/assets/js/lib/classes/*.js",
+                    "resources/assets/js/bootstrap.js",
+                    "resources/assets/js/modules/**/*.js"
+                ],
+                "dest": "./public/dist/js",
+                "file": "main.js"
+            }
+        ],
+        "watch": "resources/assets/js/**/*.js",
+        "hint": {
+            "src": [
+                "!js/lib/**/*.js",
+                "!js/vendor/**/*.js",
+                "/resources/assets/js/**/*.js"
+            ]
+        }
+    },
+    "sass": {
+        "files": [
+            {
+                "src": "resources/assets/scss/main.scss",
+                "dest": "./public/dist/css",
+                "file": "main.css"
+            }
+        ],
+        "watch": "resources/assets/**/*.scss"
+    },
+    "images": {
+        "src": "resources/assets/img/**/*",
+        "dest": "./public/dist/",
+        "watch": "images/**/*"
     },
     "devDependencies": {
-        "axios": "^0.17",
-        "bootstrap-sass": "^3.3.7",
-        "cross-env": "^5.1",
-        "jquery": "^3.2",
-        "laravel-mix": "^1.0",
-        "lodash": "^4.17.4",
-        "vue": "^2.1.10"
+        "autoprefixer": "^6.7.6",
+        "babel": "^6.23.0",
+        "babel-cli": "^6.23.0",
+        "babel-preset-es2015": "^6.22.0",
+        "cssnext": "^1.8.4",
+        "del": "^2.2.2",
+        "gulp": "^3.9.1",
+        "gulp-babel": "^6.1.2",
+        "gulp-cached": "^1.1.1",
+        "gulp-clean-css": "^3.0.4",
+        "gulp-concat": "^2.6.1",
+        "gulp-copy": "^1.0.1",
+        "gulp-eslint": "^3.0.1",
+        "gulp-imagemin": "^3.4.0",
+        "gulp-sass": "^3.1.0",
+        "gulp-scss-lint": "^0.4.0",
+        "gulp-stylelint": "^3.9.0",
+        "gulp-uglify": "^2.0.1",
+        "imagemin-pngquant": "^5.0.1"
+    },
+    "dependencies": {
+        "gulp-notify": "^3.0.0",
+        "gulp-plumber": "^1.1.0"
     }
 }

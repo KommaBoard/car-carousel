@@ -64,7 +64,7 @@ return [
         ],
         'car-image-uploads' => [
             'driver' => 'local',
-            'root'   => public_path() . '/dist/img/examples',
+            'root'   => storage_path('app/public/img/examples'),
         ],
     ],
 

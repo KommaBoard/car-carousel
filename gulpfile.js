@@ -30,7 +30,6 @@ function getArgument(key) {
 }
 
 gulp.task('default', ['clean'], function() {
-	gulp.start('images:build');
 	gulp.start('js:eslint');
 	gulp.start('js:build');
 	gulp.start('sass:build');
@@ -40,34 +39,9 @@ gulp.task('default', ['clean'], function() {
 	gulp.watch(pkg.sass.watch, ['sass:build', 'sass:lint']);
 });
 
-//  Images
-gulp.task('images:build', function() {
-	var imageminArg = getArgument('imagemin');
-
-	if (imageminArg === 'true') {
-		return gulp.src(pkg.images.src)
-			.pipe(plumber({
-				'errorHandler': onError
-			}))
-			.pipe(imagemin({
-				'progressive': true,
-				'use': [imageminPngquant()]
-			}))
-			.pipe(gulp.dest(pkg.images.dest))
-			.pipe(notify({
-				'message': 'IMG build complete',
-				'onLast': true // otherwise the notify will be fired for each file in the pipe
-			}));
-	}
-
-	return gulp.src(pkg.images.src)
-		.pipe(copy(pkg.images.dest, {
-			'prefix': 1
-		})) // needs to be copy, not just ".dest" as mac often throws errors when the folder doesn't exist
-		.pipe(notify({
-			'message': 'IMG build complete',
-			'onLast': true // otherwise the notify will be fired for each file in the pipe
-		}));
+gulp.task('deploy', function() {
+    gulp.start('js:build');
+    gulp.start('sass:build');
 });
 
 // clean folders
@@ -85,6 +59,7 @@ gulp.task('js:build', function() {
 		return gulp.src(o.src)
 			.pipe(plumber({'errorHandler': onError}))
 			.pipe(concat(o.file))
+			.pipe(uglify())
 			.pipe(gulp.dest(o.dest))
 			.pipe(notify({
 				'message': 'JS build complete',

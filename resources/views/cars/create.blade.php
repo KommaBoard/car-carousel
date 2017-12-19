@@ -29,7 +29,7 @@
 					<tr>
 						<td>
 							<?php $model = str_replace(' ', '-', $car['model']) ?>
-							<img src="<?php echo 'dist/img/examples/car-'.$model.'-small.png' ?>"
+							<img src="<?php echo '/storage/img/examples/car-'.$model.'-small.png' ?>"
 								 class="img-thumbnail" alt="car"
 							>
 						</td>

@@ -15,8 +15,8 @@ class CreateSalaryScaleTable extends Migration
     {
         Schema::create('salary_scale', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('years_experience');
-            $table->string('minimum_salary');
+            $table->integer('years_experience');
+            $table->float('minimum_salary');
         });
     }
 

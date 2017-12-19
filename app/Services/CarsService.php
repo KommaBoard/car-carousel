@@ -249,12 +249,12 @@ class CarsService
         //resize to medium (700x368px)
         $image_resize = Image::make($image->getRealPath());
         $image_resize->resize(700, 368);
-        $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-medium.png'));
+        $image_resize->save( storage_path('app/public/img/examples/car-'.$model.'-medium.png'));
 
         //resize to small (500x263)
         $image_resize = Image::make($image->getRealPath());
         $image_resize->resize(500, 263);
-        $image_resize->save(public_path('/dist/img/examples/car-'.$model.'-small.png'));
+        $image_resize->save(storage_path('app/public/img/examples/car-'.$model.'-small.png'));
 
         $car = new Car([
             'brand'     => $brand,
