@@ -3,3 +3,21 @@
 body {
 	border: 10px solid #04bcbe;
 }
+
+.btn-kommaboard {
+	color: #3b3b3b;
+	background-color: #04bcbe;
+}
+
+.btn.active {
+	color: #04bcbe !important;
+	background-color: #3b3b3b;
+}
+
+.btn.focus {
+	color: #04bcbe;
+}
+
+.help-block {
+	color: #04bcbe !important;
+}

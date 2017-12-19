@@ -62,7 +62,10 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
-
+        'car-image-uploads' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/dist/img/examples',
+        ],
     ],
 
 ];

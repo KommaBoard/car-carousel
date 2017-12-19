@@ -5,39 +5,46 @@
 </head>
 <body>
 	<div class="page-wrapper">
+		@include('general/nav')
 
-		<form method="post" action="{{action('CRUDController@update', $id)}}">
-			{{csrf_field()}}
-			<input name="_method" type="hidden" value="PATCH">
-			<div>
-				<label>
-				 Merk
-				</label>
-				<div>
-					<input type="text" name="brand" value="{{$car->brand}}">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label>
-					Model
-				</label>
-				<div class="col-sm-10">
-					<input type="text"name="model" value="{{$car->model}}">
-				</div>
-			</div>
-			<div class="form-group row">
-				<label>
-					Prijs
-				</label>
-				<div class="col-sm-10">
-					 <input type="text" name="cost" value="{{$car->cost}}">
-				</div>
-			</div>
-			<div class="form-group row">
-				<button>Aanpassen</button>
-			</div>
-		</form>
+		<div class="col-md-1"></div>
+		<div class="col-md-6">
+            <?php $model = str_replace(' ', '-', $car['model']) ?>
+			<img src="<?php echo '/dist/img/examples/car-'.$model.'-medium.png' ?>"
+				 class="img" alt="">
+		</div>
+		<div class="col-md-4">
+			<form method="post" action="{{action('CRUDController@update', $id)}}" class="form">
+				{{csrf_field()}}
+				<ul class="form__list">
+					<li class="form__row">
+						<label>Merk</label>
+						<input type="text" name="brand" class="form__input" value="{{$car->brand}}">
+					</li>
+					<li class="form__row">
+						<label>Model</label>
+						<input type="text"name="model" class="form__input" value="{{$car->model}}">
+					</li>
+					<li class="form__row">
+						<label>Type</label>
+						<input type="text"name="type" class="form__input" value="{{$car->type}}">
+					</li>
+					<li class="form__row">
+						<label>Prijs</label>
+						<input type="text" name="cost" class="form__input" value="{{$car->cost}}">
+					</li>
+					<li class="form__row form__row--footer">
+						<button class="form__button">
+							Aanpassen
+						</button>
+					</li>
+				</ul>
+				<input name="_method" type="hidden" value="PATCH">
+			</form>
+		</div>
+		<div class="col-md-1"></div>
 	</div>
+
 	@include('general/scripts')
 </body>
 </html>

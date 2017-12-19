@@ -11,8 +11,25 @@
 |
 */
 
+// Authentication Routes...
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::post('select-your-car', 'CarsController@calculateCars');
+Route::get('select-your-car', function () {
+    return redirect()->to('/');
+});
+
+Route::post('update-cars', 'CarsController@updateCars');
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('cars', 'CRUDController');
+});
+
 Route::get('/', 'CarsController@index');
 
-Route::get('cars', 'CarsController@overview');
 
-Route::resource('crud', 'CRUDController');
+
+
+

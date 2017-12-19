@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCrudsTable extends Migration
+class CreateSalaryScaleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateCrudsTable extends Migration
      */
     public function up()
     {
-        Schema::create('cruds', function (Blueprint $table) {
+        Schema::create('salary_scale', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamps();
+            $table->string('years_experience');
+            $table->string('minimum_salary');
         });
     }
 
@@ -26,6 +27,6 @@ class CreateCrudsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cruds');
+        Schema::dropIfExists('salary_scale');
     }
 }

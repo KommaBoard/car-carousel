@@ -8,6 +8,10 @@ body {
 	overflow: hidden;
 }
 
+.intro-form {
+	padding: 20px 0px;
+}
+
 .layout {
 	max-width: 600px;
 	margin-right: auto;
@@ -16,4 +20,8 @@ body {
 	&--wide {
 		max-width: 960px;
 	}
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+	padding: 0 !important;
 }
