@@ -39,7 +39,6 @@ return [
             'database' => env('DB_DATABASE', 'cars'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', 'root'),
-            'unix_socket'   => env('DB_UNIX_SOCKET', 'null'),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
