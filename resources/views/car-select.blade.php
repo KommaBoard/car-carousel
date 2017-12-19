@@ -20,7 +20,7 @@
 				<div class="user-info">
 					<h3>Ervaring: {{$experience}} jaar</h3>
 
-					<h3>Bruttoloon: € {{$salary}}</h3>
+					<h3>butoloon: € {{$salary}}</h3>
 				</div>
 			</div>
 			<div class="col-md-8">
@@ -30,7 +30,7 @@
 					<input type="text" hidden name="experience" value="{{$experience}}">
 
 					<p>
-						<label for="amount">Bruttoloon af te staan €:</label>
+						<label for="amount">butoloon af te staan €:</label>
 						<input type="text"
 							   id="amount"
 							   name="newSalaryToLose"

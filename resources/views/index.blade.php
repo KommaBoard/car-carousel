@@ -46,7 +46,7 @@
 							@endif
 						</li>
 						<li class="form__row">
-							<label>Bruttoloon</label>
+							<label>butoloon</label>
 							<input type="text"name="salary" value="{{ old('salary') }}" class="form__input" minlength="4" maxlength="4" required>
 							@if ($errors->has('salary'))
 								<span class="help-block">
